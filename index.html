@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/admin_kecamatan_1.js"></script>
+        <script src="data/admin_desa_2.js"></script>
+        <script src="data/Sungai_DIY_3.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-8.02524323856587,109.83813503652645],[-7.330258206193086,111.14938113300325]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        L.control.locate().addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        var overlay_OpenStreetMap_0 = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            opacity: 1.0
+        });
+        overlay_OpenStreetMap_0.addTo(map);
+        map.addLayer(overlay_OpenStreetMap_0);
+        function pop_admin_kecamatan_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['gid'] !== null ? Autolinker.link(String(feature.properties['gid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kode_prop'] !== null ? Autolinker.link(String(feature.properties['kode_prop'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kode_kab'] !== null ? Autolinker.link(String(feature.properties['kode_kab'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kode_kec'] !== null ? Autolinker.link(String(feature.properties['kode_kec'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kecamatan'] !== null ? Autolinker.link(String(feature.properties['kecamatan'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kabupaten'] !== null ? Autolinker.link(String(feature.properties['kabupaten'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['propinsi'] !== null ? Autolinker.link(String(feature.properties['propinsi'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['luas_km2'] !== null ? Autolinker.link(String(feature.properties['luas_km2'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_admin_kecamatan_1_0() {
+            return {
+                pane: 'pane_admin_kecamatan_1',
+                opacity: 1,
+                color: 'rgba(128,14,16,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(228,26,28,1.0)',
+            }
+        }
+        map.createPane('pane_admin_kecamatan_1');
+        map.getPane('pane_admin_kecamatan_1').style.zIndex = 401;
+        map.getPane('pane_admin_kecamatan_1').style['mix-blend-mode'] = 'normal';
+        var layer_admin_kecamatan_1 = new L.geoJson(json_admin_kecamatan_1, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_admin_kecamatan_1',
+            onEachFeature: pop_admin_kecamatan_1,
+            style: style_admin_kecamatan_1_0,
+        });
+        bounds_group.addLayer(layer_admin_kecamatan_1);
+        map.addLayer(layer_admin_kecamatan_1);
+        function pop_admin_desa_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['gid'] !== null ? Autolinker.link(String(feature.properties['gid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['area'] !== null ? Autolinker.link(String(feature.properties['area'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['perimeter'] !== null ? Autolinker.link(String(feature.properties['perimeter'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['admprop_'] !== null ? Autolinker.link(String(feature.properties['admprop_'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['admprop_id'] !== null ? Autolinker.link(String(feature.properties['admprop_id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['bts_diy_'] !== null ? Autolinker.link(String(feature.properties['bts_diy_'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kode_desa'] !== null ? Autolinker.link(String(feature.properties['kode_desa'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kode_prop'] !== null ? Autolinker.link(String(feature.properties['kode_prop'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kode_kab'] !== null ? Autolinker.link(String(feature.properties['kode_kab'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kode_kec'] !== null ? Autolinker.link(String(feature.properties['kode_kec'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['status_idt'] !== null ? Autolinker.link(String(feature.properties['status_idt'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['status_kot'] !== null ? Autolinker.link(String(feature.properties['status_kot'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kelurahan'] !== null ? Autolinker.link(String(feature.properties['kelurahan'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kecamatan'] !== null ? Autolinker.link(String(feature.properties['kecamatan'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kabupaten'] !== null ? Autolinker.link(String(feature.properties['kabupaten'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['propinsi'] !== null ? Autolinker.link(String(feature.properties['propinsi'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['binabudaya'] !== null ? Autolinker.link(String(feature.properties['binabudaya'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['luasprog'] !== null ? Autolinker.link(String(feature.properties['luasprog'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['luas_km2'] !== null ? Autolinker.link(String(feature.properties['luas_km2'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kodepos'] !== null ? Autolinker.link(String(feature.properties['kodepos'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['apy'] !== null ? Autolinker.link(String(feature.properties['apy'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_admin_desa_2_0() {
+            return {
+                pane: 'pane_admin_desa_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(96,103,196,1.0)',
+            }
+        }
+        map.createPane('pane_admin_desa_2');
+        map.getPane('pane_admin_desa_2').style.zIndex = 402;
+        map.getPane('pane_admin_desa_2').style['mix-blend-mode'] = 'normal';
+        var layer_admin_desa_2 = new L.geoJson(json_admin_desa_2, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_admin_desa_2',
+            onEachFeature: pop_admin_desa_2,
+            style: style_admin_desa_2_0,
+        });
+        bounds_group.addLayer(layer_admin_desa_2);
+        map.addLayer(layer_admin_desa_2);
+        function pop_Sungai_DIY_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KETERANGAN'] !== null ? Autolinker.link(String(feature.properties['KETERANGAN'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? Autolinker.link(String(feature.properties['Shape_Leng'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Sungai_DIY_3_0() {
+            return {
+                pane: 'pane_Sungai_DIY_3',
+                opacity: 1,
+                color: 'rgba(50,156,1,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_Sungai_DIY_3');
+        map.getPane('pane_Sungai_DIY_3').style.zIndex = 403;
+        map.getPane('pane_Sungai_DIY_3').style['mix-blend-mode'] = 'normal';
+        var layer_Sungai_DIY_3 = new L.geoJson(json_Sungai_DIY_3, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Sungai_DIY_3',
+            onEachFeature: pop_Sungai_DIY_3,
+            style: style_Sungai_DIY_3_0,
+        });
+        bounds_group.addLayer(layer_Sungai_DIY_3);
+        map.addLayer(layer_Sungai_DIY_3);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Sungai_DIY_3.png" /> Sungai_DIY': layer_Sungai_DIY_3,'<img src="legend/admin_desa_2.png" /> admin_desa': layer_admin_desa_2,'<img src="legend/admin_kecamatan_1.png" /> admin_kecamatan': layer_admin_kecamatan_1,"OpenStreetMap": overlay_OpenStreetMap_0,}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_admin_kecamatan_1,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'kabupaten'}));
+        </script>
+    </body>
+</html>
